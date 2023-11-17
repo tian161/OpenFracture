@@ -24,7 +24,7 @@ public class Slice : MonoBehaviour
     /// </summary>
     /// <param name="sliceNormalWorld">The cut plane normal vector in world coordinates.</param>
     /// <param name="sliceOriginWorld">The cut plane origin in world coordinates.</param>
-    public void ComputeSlice(Vector3 sliceNormalWorld, Vector3 sliceOriginWorld)
+    public GameObject ComputeSlice(Vector3 sliceNormalWorld, Vector3 sliceOriginWorld)
     {
         var mesh = this.GetComponent<MeshFilter>().sharedMesh;
 
@@ -66,6 +66,7 @@ public class Slice : MonoBehaviour
                 callbackOptions.onCompleted.Invoke();
             }
         }
+        return fragmentRoot;
     }
     /// <summary>
     /// Creates a template object which each fragment will derive from
@@ -104,7 +105,8 @@ public class Slice : MonoBehaviour
         fragmentRigidBody.drag = thisRigidBody.drag;
         fragmentRigidBody.angularDrag = thisRigidBody.angularDrag;
         fragmentRigidBody.useGravity = thisRigidBody.useGravity;
-    
+        fragmentRigidBody.isKinematic = thisRigidBody.isKinematic;
+
         // If refracturing is enabled, create a copy of this component and add it to the template fragment object
         if (this.sliceOptions.enableReslicing &&
            (this.currentSliceCount < this.sliceOptions.maxResliceCount))
